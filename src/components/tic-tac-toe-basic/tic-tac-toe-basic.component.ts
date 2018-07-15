@@ -5,4 +5,8 @@ export class TicTacToeBasicComponent  {
   constructor() {}
 
   init() {}
+
+  tick(): void {
+    console.info('tick');
+  }
 }

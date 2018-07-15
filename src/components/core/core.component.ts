@@ -8,7 +8,7 @@ export class CoreComponent  {
   ) {}
 
   init() {
-    console.info('test', this.ticTacToeComponent);
+    this.ticTacToeComponent.tick();
   }
   
 }

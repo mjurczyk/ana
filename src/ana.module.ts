@@ -8,9 +8,4 @@ import { CoreComponent } from 'components/core/core.component';
     CoreComponent
   ]
 })
-export class Ana {
-  init(): void {
-    // private ticTacToeBasic: TicTacToeBasicComponent
-    // this.ticTacToeBasic.init();
-  }
-}
+export class Ana {}

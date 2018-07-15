@@ -13,7 +13,9 @@
   "devDependencies": {
     "brain.js": "1.2.2",
     "codelyzer": "4.4.2",
+    "ramda": "^0.25.0",
     "reflect-metadata": "0.1.12",
+    "terminal-kit": "^1.17.12",
     "ts-node": "7.0.0",
     "tsconfig-paths": "3.4.2",
     "tslint": "5.10.0",

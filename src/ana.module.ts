@@ -1,10 +1,10 @@
-import { TicTacToeBasicComponent } from 'components/tic-tac-toe-basic/tic-tac-toe-basic.component';
+import { TicTacToeComponent } from 'components/tic-tac-toe/tic-tac-toe.component';
 import { Module } from 'shared/decorators/module/module.decorator';
 import { CoreComponent } from 'components/core/core.component';
 
 @Module({
   components: [
-    TicTacToeBasicComponent,
+    TicTacToeComponent,
     CoreComponent
   ]
 })

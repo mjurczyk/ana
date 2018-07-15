@@ -1,10 +1,10 @@
-import { TicTacToeBasicComponent } from '../tic-tac-toe-basic/tic-tac-toe-basic.component';
+import { TicTacToeComponent } from '../tic-tac-toe/tic-tac-toe.component';
 import { Component } from 'shared/decorators/component/component.decorator';
 
 @Component()
 export class CoreComponent  {
   constructor(
-    private ticTacToeComponent: TicTacToeBasicComponent
+    private ticTacToeComponent: TicTacToeComponent
   ) {}
 
   init() {

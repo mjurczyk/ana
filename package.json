@@ -11,12 +11,12 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "brain.js": "^1.2.2",
-    "codelyzer": "^4.4.2",
-    "reflect-metadata": "^0.1.12",
-    "ts-node": "^7.0.0",
-    "tsconfig-paths": "^3.4.2",
-    "tslint": "^5.10.0",
-    "typescript": "^2.9.2"
+    "brain.js": "1.2.2",
+    "codelyzer": "4.4.2",
+    "reflect-metadata": "0.1.12",
+    "ts-node": "7.0.0",
+    "tsconfig-paths": "3.4.2",
+    "tslint": "5.10.0",
+    "typescript": "2.9.2"
   }
 }

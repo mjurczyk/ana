@@ -33,4 +33,6 @@ export function Module(parts?: ModuleParts) {
   const provider = {};
 
   parts.components.forEach(component => _resolveDependency(component, provider));
+
+  return (component => component);
 }

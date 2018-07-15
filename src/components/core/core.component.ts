@@ -1,5 +1,5 @@
-import { TicTacToeBasicComponent } from "../tic-tac-toe-basic/tic-tac-toe-basic.component";
-import { Component } from "shared/decorators/component/component.decorator";
+import { TicTacToeBasicComponent } from '../tic-tac-toe-basic/tic-tac-toe-basic.component';
+import { Component } from 'shared/decorators/component/component.decorator';
 
 @Component()
 export class CoreComponent  {

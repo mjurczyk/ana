@@ -102,7 +102,7 @@ export class TicTacToeAdapter {
   }
 
   drawBoard(): void {
-    const boardBaseCoordinates = [ 3, 3 ];
+    const boardBaseCoordinates = [ 7, 3 ];
     this.terminal.moveTo(...boardBaseCoordinates);
 
     this.board.forEach((row: number[], rowIndex: number) => {

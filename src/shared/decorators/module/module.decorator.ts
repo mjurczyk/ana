@@ -8,6 +8,9 @@ export type ModuleParts = {
 
 export function _resolveDependency(target, provider) {
   const constructorDef = target.prototype.constructor;
+
+  console.debug('module', '_resolveDependency', Reflect.getMetadataKeys(constructorDef));
+
   const argTypes = Reflect.getMetadata('design:paramtypes', constructorDef)
     .map((param) => param.name);
   const argDefs = [];
@@ -34,5 +37,7 @@ export function Module(parts?: ModuleParts) {
 
   parts.components.forEach(component => _resolveDependency(component, provider));
 
-  return (component => component);
+  return (module => {
+    module.prototype.components = provider;
+  });
 }

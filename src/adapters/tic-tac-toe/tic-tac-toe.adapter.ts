@@ -1,11 +1,12 @@
-import { flatten } from 'ramda';
+import { forEachObjIndexed } from 'ramda';
+import { flatten, forEach } from 'ramda';
 import * as terminalKit from 'terminal-kit';
 import { Adapter } from 'shared/decorators/adapter/adapter.decorator';
 import { TicTacToeBoard } from './types/tic-tac-toe-board.type';
 import { TicTacToeEnum } from './enums/tic-tac-toe.enum';
 import { TicTacToePlayerEnum } from './enums/tic-tac-toe-player.enum';
-import { TicTacToeResult } from './types/tic-tac-toe-result.type';
 import { TicTacToeDeterministicResponse } from './types/tic-tac-toe-deterministic-response.type';
+import { TicTacToeResult } from './types/tic-tac-toe-result.type';
 
 @Adapter()
 export class TicTacToeAdapter {
@@ -13,7 +14,7 @@ export class TicTacToeAdapter {
   private board: TicTacToeBoard = this.getClearBoard();
   private playerTurn: TicTacToePlayerEnum;
   private winner: TicTacToePlayerEnum;
-  private lastPlayerMove: number[];
+  private lastPlayerMove: number[] = [ 0, 0 ];
   private config;
 
   init(config?: {
@@ -28,27 +29,52 @@ export class TicTacToeAdapter {
     this.nextTurn();
   }
 
-  tick(): TicTacToeResult {
+  tick(): void {
     this.checkResults();
     this.setHeadText('Basic TicTacToe');
     this.drawBoard();
 
     if (this.winner) {
       this.drawResults();
+      console.info('1');
 
-      return <TicTacToeResult>{
-        winner: this.winner,
-        lastMove: this.lastPlayerMove
-      };
+      // forEachObjIndexed((config, key) => {
+      //   if (typeof config === 'function') {
+      //     config(this.getGameStatus());
+      //   }
+      // })(this.config);
+
+      console.info('2');
+
+      this.reset();
+      this.tick();
+
+      console.info('3');
     } else {
-      this.drawCurrentPlayer();
+      if (!this.checkSolvability()) {
+        this.drawError('This match cannot be won.');
+        this.reset();
+        this.tick();
+      } else {
+        this.drawCurrentPlayer();
+      }
     }
   }
 
   reset(): void {
     this.board = this.getClearBoard();
-    this.playerTurn = TicTacToePlayerEnum.first;
     this.winner = undefined;
+    this.lastPlayerMove = undefined;
+    this.nextTurn();
+  }
+
+  getGameStatus(invalidMove?: boolean): TicTacToeResult {
+    return {
+      winner: this.winner,
+      lastMove: this.lastPlayerMove,
+      invalidMove,
+      board: this.board
+    };
   }
 
   getClearBoard(): TicTacToeBoard {
@@ -114,15 +140,18 @@ export class TicTacToeAdapter {
     this.askForMove();
   }
 
-  askForMove(): void {
+  askForMove(repeated?: boolean): void {
     this.terminal.moveTo(1, 8);
     this.terminal.eraseLine();
 
     if (this.config[this.playerTurn]) {
-      const coordinates = this.config[this.playerTurn](this.lastPlayerMove);
+      const response = this.config[this.playerTurn](this.getGameStatus(repeated));
+      const coordinates = this.validateMove(response, () => this.askForMove(true));
 
-      this.clearError();
-      this.makeMove(coordinates);
+      if (coordinates) {
+        this.clearError();
+        this.makeMove(coordinates);
+      }
     } else {
       this.terminal.inputField({
         cancelable: true
@@ -142,7 +171,7 @@ export class TicTacToeAdapter {
     const coordinates = [ parseInt(answerPattern[2]) - 1, parseInt(answerPattern[1]) - 1 ];
 
     if (!answerPattern || isNaN(coordinates[0]) || isNaN(coordinates[1])) {
-      this.drawError('Invalid move, use X,Y notation.');
+      this.drawError(`${move} - invalid move, use X,Y notation.`);
       
       if (typeof errorCallback === 'function') errorCallback();
 
@@ -152,7 +181,7 @@ export class TicTacToeAdapter {
     const isEmpty = this.board[coordinates[0]][coordinates[1]] === TicTacToeEnum.none;
 
     if (!isEmpty) {
-      this.drawError('Invalid move, field already taken.');
+      this.drawError(`${move} - invalid move, field already taken.`);
       
       if (typeof errorCallback === 'function') errorCallback();
 
@@ -189,15 +218,6 @@ export class TicTacToeAdapter {
 
     if (winningPlayer) {
       this.winner = winningPlayer;
-      return;
-    }
-
-    if (!winningPlayer && !this.checkSolvability()) {
-      this.drawError('This match cannot be won.');
-
-      setTimeout(() => {
-        this.reset();
-      }, 2500);
     }
   }
 
@@ -247,10 +267,5 @@ export class TicTacToeAdapter {
     this.terminal.moveTo(1, 7);
     this.terminal.eraseLine();
     this.terminal.cyan(`Player ${this.winner} won! 🎉`);
-
-    setTimeout(() => {
-      this.reset();
-      this.tick();
-    }, 2500);
   }
 }

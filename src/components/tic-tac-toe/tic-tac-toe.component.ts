@@ -51,7 +51,6 @@ export class TicTacToeComponent {
         this.currentSession += feedback.lastMove.join('');
       }
 
-      return;
       if (feedback.winner) {
         let qeueShift = '';
 
@@ -86,11 +85,11 @@ export class TicTacToeComponent {
 
         const sessionRecordingPath = `./sessions/${this.sessionId}/recording.json`;
 
-        // fs.ensureFileSync(sessionRecordingPath);
-        // fs.writeJsonSync(sessionRecordingPath, this.currentSession);
+        fs.ensureFileSync(sessionRecordingPath);
+        fs.writeJsonSync(sessionRecordingPath, this.currentSession);
 
-        // fs.ensureFileSync(this.latestSessionRecordingPath);
-        // fs.writeJsonSync(this.latestSessionRecordingPath, this.sessionsMemory);
+        fs.ensureFileSync(this.latestSessionRecordingPath);
+        fs.writeJsonSync(this.latestSessionRecordingPath, this.sessionsMemory);
 
         this.neuralNetwork.train(this.sessionsMemory);
         this.currentSession = '';

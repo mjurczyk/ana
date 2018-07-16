@@ -8,8 +8,6 @@ export class CoreComponent {
     private ticTacToeComponent: TicTacToeComponent
   ) {}
 
-  init() {}
-
   learn(feedback: AbstractFeedback) {
 
   }

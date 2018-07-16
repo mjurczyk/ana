@@ -1,5 +1,5 @@
-import { TicTacToePlayerEnum } from "../enums/tic-tac-toe-player.enum";
-import { TicTacToeBoard } from "./tic-tac-toe-board.type";
+import { TicTacToePlayerEnum } from '../enums/tic-tac-toe-player.enum';
+import { TicTacToeBoard } from './tic-tac-toe-board.type';
 
 export type TicTacToeResult = {
   winner: TicTacToePlayerEnum;

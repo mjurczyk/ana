@@ -1,14 +1,13 @@
-import { forEachObjIndexed } from 'ramda';
-import { flatten, forEach } from 'ramda';
+import { flatten } from 'ramda';
 import * as terminalKit from 'terminal-kit';
-import { Adapter } from 'shared/decorators/adapter/adapter.decorator';
 import { TicTacToeBoard } from './types/tic-tac-toe-board.type';
 import { TicTacToeEnum } from './enums/tic-tac-toe.enum';
 import { TicTacToePlayerEnum } from './enums/tic-tac-toe-player.enum';
 import { TicTacToeDeterministicResponse } from './types/tic-tac-toe-deterministic-response.type';
 import { TicTacToeResult } from './types/tic-tac-toe-result.type';
+import { Component } from 'shared/decorators/component/component.decorator';
 
-@Adapter()
+@Component()
 export class TicTacToeAdapter {
   private terminal: any;
   private board: TicTacToeBoard = this.getClearBoard();

@@ -18,7 +18,9 @@ export class TicTacToeComponent {
 
   private latestSessionRecordingPath = './sessions/latest/recording.json';
 
-  constructor() {}
+  constructor() {
+    this.init();
+  }
 
   init() {
     this.getLatestSessionRecordings();

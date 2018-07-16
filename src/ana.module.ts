@@ -33,6 +33,6 @@ export class Ana implements AnaModuleInterface {
   }
 
   getComponents() {
-    this.components = (this as any).components;
+    this.components = (this as any).__components__;
   }
 }

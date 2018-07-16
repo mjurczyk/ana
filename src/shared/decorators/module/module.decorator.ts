@@ -1,43 +1,43 @@
 import 'reflect-metadata';
 
-export type ModuleType = any;
+export type ModuleComponentType = { new(...args: any[]): any; };
+export type ModuleType = Function;
+export type ModuleDependencyProvider = object;
+export type ModuleArgs = { components?: ModuleComponentType[] };
+export type ModuleConstructor = (ModuleType) => ModuleType;
 
-export type ModuleParts = {
-  components?: Function[]
-}
+export function resolveDependency(targetDef: ModuleComponentType, provider: ModuleDependencyProvider): void {
+  const constructorDef = targetDef.prototype.constructor;
 
-export function _resolveDependency(target, provider) {
-  const constructorDef = target.prototype.constructor;
+  if (constructorDef) {
+    return;
+  }
 
-  console.debug('module', '_resolveDependency', Reflect.getMetadataKeys(constructorDef));
+  const dependencyMetadata = Reflect.getMetadata('design:paramtypes', constructorDef)
+    .map((dependencyDef: Function) => dependencyDef.name);
+  const constructorArgs = [];
 
-  const argTypes = Reflect.getMetadata('design:paramtypes', constructorDef)
-    .map((param) => param.name);
-  const argDefs = [];
-
-  argTypes.forEach((type) => {
+  dependencyMetadata.forEach((type) => {
     if (!provider.hasOwnProperty(type)) {
-      _resolveDependency(type, provider);
+      resolveDependency(type, provider);
     } else {
-      argDefs.push(provider[type]);
+      constructorArgs.push(provider[type]);
     }
   });
 
-  provider[target.name] = new target(...argDefs);
-  
-  if (typeof provider[target.name].init === 'function') {
-    provider[target.name].init();
-  }
-
-  return provider[target.name];
+  provider[targetDef.name] = new targetDef(...constructorArgs);
 }
 
-export function Module(parts?: ModuleParts) {
-  const provider = {};
+export function Module(args?: ModuleArgs): ModuleConstructor {
+  const dependencyProvider: ModuleDependencyProvider = {};
 
-  parts.components.forEach(component => _resolveDependency(component, provider));
+  if (args.components && args.components.length) {
+    args.components.forEach((componentDef: ModuleComponentType) => resolveDependency(componentDef, dependencyProvider));
+  }
 
-  return (module => {
-    module.prototype.components = provider;
+  return ((module: ModuleType) => {
+    module.prototype.__components__ = dependencyProvider;
+
+    return module;
   });
 }

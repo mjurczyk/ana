@@ -7,26 +7,26 @@ export type ModuleDependencyProvider = object;
 export type ModuleArgs = { components?: ModuleComponentType[] };
 export type ModuleConstructor = (ModuleType) => ModuleType;
 
-export function resolveDependency(targetDef: ModuleComponentType, provider: ModuleDependencyProvider): void {
+export function resolveDependency(targetDef: ModuleComponentType, providerRef: ModuleDependencyProvider): void {
   const constructorDef = targetDef.prototype.constructor;
 
-  if (constructorDef) {
+  if (!constructorDef) {
     return;
   }
 
   const dependencyMetadata = Reflect.getMetadata('design:paramtypes', constructorDef)
-    .map((dependencyDef: Function) => dependencyDef.name);
+    .map((dependencyDef: ModuleComponentType) => dependencyDef.name);
   const constructorArgs = [];
 
   dependencyMetadata.forEach((type) => {
-    if (!provider.hasOwnProperty(type)) {
-      resolveDependency(type, provider);
+    if (!providerRef.hasOwnProperty(type)) {
+      resolveDependency(type, providerRef);
     } else {
-      constructorArgs.push(provider[type]);
+      constructorArgs.push(providerRef[type]);
     }
   });
 
-  provider[targetDef.name] = new targetDef(...constructorArgs);
+  providerRef[targetDef.name] = new targetDef(...constructorArgs);
 }
 
 export function Module(args?: ModuleArgs): ModuleConstructor {

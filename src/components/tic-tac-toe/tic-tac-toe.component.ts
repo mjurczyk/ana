@@ -28,6 +28,8 @@ export class TicTacToeComponent {
   }
 
   getLatestSessionRecordings(): void {
+    console.warn('💁‍♂️ Caution', 'fetching Ai memory, this may take a while...');
+
     let recordings;
 
     try {
@@ -105,7 +107,12 @@ export class TicTacToeComponent {
       binaryThresh: 0.5,
       hiddenLayers: [ 10, 10, 10 ]
     });
+
+    console.warn('👩‍🎓 Caution', 'training Ai brain...');
+
     this.neuralNetwork.train(this.sessionsMemory);
+
+    console.warn('👏 Caution', 'ready');
   }
 
   respond(): string {

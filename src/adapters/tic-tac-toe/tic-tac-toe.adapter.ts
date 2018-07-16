@@ -1,4 +1,4 @@
-import { flatten } from 'ramda';
+import { flatten, forEachObjIndexed } from 'ramda';
 import * as terminalKit from 'terminal-kit';
 import { TicTacToeBoard } from './types/tic-tac-toe-board.type';
 import { TicTacToeEnum } from './enums/tic-tac-toe.enum';
@@ -35,20 +35,15 @@ export class TicTacToeAdapter {
 
     if (this.winner) {
       this.drawResults();
-      console.info('1');
 
-      // forEachObjIndexed((config, key) => {
-      //   if (typeof config === 'function') {
-      //     config(this.getGameStatus());
-      //   }
-      // })(this.config);
-
-      console.info('2');
+      forEachObjIndexed((config, key) => {
+        if (typeof config === 'function') {
+          config(this.getGameStatus());
+        }
+      })(this.config);
 
       this.reset();
       this.tick();
-
-      console.info('3');
     } else {
       if (!this.checkSolvability()) {
         this.drawError('This match cannot be won.');
@@ -111,6 +106,9 @@ export class TicTacToeAdapter {
     this.terminal.moveTo(...boardBaseCoordinates);
 
     this.board.forEach((row: number[], rowIndex: number) => {
+      this.terminal.moveTo(0, boardBaseCoordinates[1] + rowIndex);
+      this.terminal.eraseLine();
+
       row.forEach((column: number, columnIndex: number) => {
         this.terminal.moveTo(boardBaseCoordinates[0] + columnIndex, boardBaseCoordinates[1] + rowIndex);
 
@@ -123,10 +121,7 @@ export class TicTacToeAdapter {
             break;
           case TicTacToeEnum.cross:
             this.terminal.blue('✗');
-            break;
-          default:
-            this.terminal.red('?');
-            break;
+          default: break;
         }
       });
     });
@@ -166,7 +161,7 @@ export class TicTacToeAdapter {
   }
 
   validateMove(move: string, errorCallback?: Function): number[] {
-    const answerPattern = move.match(/([123]),([123])/) || [];
+    const answerPattern = (move && move.match(/([123]),([123])/)) || [];
     const coordinates = [ parseInt(answerPattern[2]) - 1, parseInt(answerPattern[1]) - 1 ];
 
     if (!answerPattern || isNaN(coordinates[0]) || isNaN(coordinates[1])) {

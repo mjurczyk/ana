@@ -1,6 +1,6 @@
 # Simple Self-learning AI
 
-*Ana* is a simple side-project AI. It can solve TicTacToe, isn't good at it though 💁‍♂️
+*Ana (pron. /ˈzaɪ.lə.ˌfəʊn/)* is a simple side-project AI. It can solve TicTacToe, isn't good at it though 💁‍♂️
 
 Featuring:
 

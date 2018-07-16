@@ -5,7 +5,7 @@ import { TicTacToeEnum } from './enums/tic-tac-toe.enum';
 import { TicTacToePlayerEnum } from './enums/tic-tac-toe-player.enum';
 import { TicTacToeDeterministicResponse } from './types/tic-tac-toe-deterministic-response.type';
 import { TicTacToeResult } from './types/tic-tac-toe-result.type';
-import { Component } from 'shared/decorators/component/component.decorator';
+import { Component } from 'inject-me-timbers';
 
 @Component()
 export class TicTacToeAdapter {

@@ -1,7 +1,6 @@
 import * as moment from 'moment';
-import { flatten } from 'ramda';
 import * as brain from 'brain.js';
-import { Component } from 'shared/decorators/component/component.decorator';
+import { Component } from 'inject-me-timbers';
 import { TicTacToeFeedback } from './types/tic-tac-toe-feedback.type';
 import { AbstractFeedback } from 'shared/types/feedback/abstract-feedback.type';
 import * as fs from 'fs-extra';

@@ -1,6 +1,6 @@
 import { forEachObjIndexed } from 'ramda';
 import { TicTacToeComponent } from 'components/tic-tac-toe/tic-tac-toe.component';
-import { Module } from 'shared/decorators/module/module.decorator';
+import { Module } from 'inject-me-timbers';
 import { CoreComponent } from 'components/core/core.component';
 import { AnaModuleInterface } from 'shared/interfaces/ana-module/ana-module.interface';
 import { AbstractFeedback } from 'shared/types/feedback/abstract-feedback.type';

@@ -1,5 +1,5 @@
 import { TicTacToeComponent } from '../tic-tac-toe/tic-tac-toe.component';
-import { Component } from 'shared/decorators/component/component.decorator';
+import { Component } from 'inject-me-timbers';
 import { AbstractFeedback } from 'shared/types/feedback/abstract-feedback.type';
 
 @Component()
